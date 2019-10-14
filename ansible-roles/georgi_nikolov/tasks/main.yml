@@ -5,11 +5,10 @@
     name: unzip
     state: present
 - name: get terraform bin
-  shell: wget "https://releases.hashicorp.com/terraform/0.12.8/terraform_0.12.8_linux_amd64.zip" 
+  shell: wget "https://releases.hashicorp.com/terraform/0.12.10/terraform_0.12.10_linux_amd64.zip" 
 - name: unzip
-  shell: unzip terraform_0.12.8_linux_amd64.zip
+  shell: unzip terraform_0.12.10_linux_amd64.zip 
 - name: cp to bin dir
-  shell: cp terraform ~/bin/
-- name: version 
-  shell: terraform -v 
-
+  shell: cp /home/georginikolov/Ansible-test/Ansible-playbook/terraform ~/bin/
+- name: version
+  command: "echo Checking terraform version ~/bin/terraform -v" 
