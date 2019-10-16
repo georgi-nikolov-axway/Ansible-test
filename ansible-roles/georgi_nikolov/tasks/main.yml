@@ -1,14 +1,17 @@
 ---
 
-- name: get unzip
-  package:
-    name: unzip
-    state: present
-- name: get terraform bin
-  shell: wget "https://releases.hashicorp.com/terraform/0.12.10/terraform_0.12.10_linux_amd64.zip" 
-- name: unzip
-  shell: unzip terraform_0.12.10_linux_amd64.zip 
-- name: cp to bin dir
-  shell: cp /home/georginikolov/Ansible-test/Ansible-playbook/terraform ~/bin/
-- name: version
-  command: "echo Checking terraform version ~/bin/terraform -v" 
+- name: Download terraform archive into tmp folder 
+  get_url:
+    url: "{{ terraform_url }}"
+    dest: "/tmp/terraform_{{ terraform_version }}_{{ terraform_arch }}.zip"
+    mode: 0440
+
+- name: Extract terraform 
+  unarchive: 
+    src: "/tmp/terraform_{{ terraform_version }}_{{ terraform_arch }}.zip"
+    dest: ~/bin 
+
+- name: Check Terraform version
+  command: "terraform -v"
+  register: outputofterraformversion
+- debug: var=outputofterraformversion.stdout_lines
